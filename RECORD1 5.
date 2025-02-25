@@ -36,3 +36,4 @@ mysql> SHOW TABLES;
 | product           |
 +-------------------+
 4 rows in set (0.00 sec)
+ 
