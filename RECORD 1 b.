@@ -41,4 +41,4 @@ Query OK, 0 rows affected (0.45 sec)
 7. Delete the table STUDENT1.
 
 mysql> DROP TABLE student1;
-Query OK, 0 rows affected (0.50 sec)
+Query OK, 0 rows affected (0.50 sec) 
