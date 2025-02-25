@@ -1,0 +1,38 @@
+5.        Create an INVOICE database and having following tables.
+
+                      Customer(id, name, address, city, ph_no)
+
+                      Product(pid,  pname, price (default 0))
+
+                      Invoice_master(inv_id, cust_id(FK), inv_date)
+
+                      Invoice_item(inv_id (FK),  pid(FK), quantity)
+
+
+mysql> CREATE DATABASE INVOICE;
+Query OK, 1 row affected (0.19 sec)
+
+mysql> USE INVOICE;
+Database changed
+mysql> CREATE TABLE customer(id int PRIMARY KEY,name varchar(25),address varchar(50),city varchar(20),ph_no int);
+Query OK, 0 rows affected (1.38 sec)
+
+mysql> CREATE TABLE product(p_id int PRIMARY KEY,pname varchar(25),price int DEFAULT 0);
+Query OK, 0 rows affected (1.12 sec)
+
+mysql> CREATE TABLE invoice_master(inv_id int PRIMARY KEY,cust_id int,CONSTRAINT frnkey FOREIGN KEY(cust_id) REFERENCES customer(id),inv_date date);
+Query OK, 0 rows affected (1.29 sec)
+
+mysql> CREATE TABLE invoice_item(invo_id int,CONSTRAINT fkey FOREIGN KEY(invo_id) REFERENCES invoice_master(inv_id),pr_id int,CONSTRAINT frkey FOREIGN KEY(pr_id) REFERENCES product(p_id),quantity int);
+Query OK, 0 rows affected (1.59 sec)
+
+mysql> SHOW TABLES;
++-------------------+
+| Tables_in_INVOICE |
++-------------------+
+| customer          |
+| invoice_item      |
+| invoice_master    |
+| product           |
++-------------------+
+4 rows in set (0.00 sec)
