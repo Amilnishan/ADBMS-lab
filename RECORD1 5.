@@ -14,17 +14,61 @@ Query OK, 1 row affected (0.19 sec)
 
 mysql> USE INVOICE;
 Database changed
+
 mysql> CREATE TABLE customer(id int PRIMARY KEY,name varchar(25),address varchar(50),city varchar(20),ph_no int);
-Query OK, 0 rows affected (1.38 sec)
+Query OK, 0 rows affected (0.84 sec)
+
+mysql> DESC customer;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| id      | int         | NO   | PRI | NULL    |       |
+| name    | varchar(25) | YES  |     | NULL    |       |
+| address | varchar(50) | YES  |     | NULL    |       |
+| city    | varchar(20) | YES  |     | NULL    |       |
+| ph_no   | int         | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
 
 mysql> CREATE TABLE product(p_id int PRIMARY KEY,pname varchar(25),price int DEFAULT 0);
-Query OK, 0 rows affected (1.12 sec)
+Query OK, 0 rows affected (1.45 sec)
+
+mysql> DESC product;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| p_id  | int         | NO   | PRI | NULL    |       |
+| pname | varchar(25) | YES  |     | NULL    |       |
+| price | int         | YES  |     | 0       |       |
++-------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
 
 mysql> CREATE TABLE invoice_master(inv_id int PRIMARY KEY,cust_id int,CONSTRAINT frnkey FOREIGN KEY(cust_id) REFERENCES customer(id),inv_date date);
-Query OK, 0 rows affected (1.29 sec)
+Query OK, 0 rows affected (1.90 sec)
+
+mysql> DESC invoice_master;
++----------+------+------+-----+---------+-------+
+| Field    | Type | Null | Key | Default | Extra |
++----------+------+------+-----+---------+-------+
+| inv_id   | int  | NO   | PRI | NULL    |       |
+| cust_id  | int  | YES  | MUL | NULL    |       |
+| inv_date | date | YES  |     | NULL    |       |
++----------+------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
 
 mysql> CREATE TABLE invoice_item(invo_id int,CONSTRAINT fkey FOREIGN KEY(invo_id) REFERENCES invoice_master(inv_id),pr_id int,CONSTRAINT frkey FOREIGN KEY(pr_id) REFERENCES product(p_id),quantity int);
-Query OK, 0 rows affected (1.59 sec)
+Query OK, 0 rows affected (1.62 sec)
+
+mysql> DESC invoice_item;
++----------+------+------+-----+---------+-------+
+| Field    | Type | Null | Key | Default | Extra |
++----------+------+------+-----+---------+-------+
+| invo_id  | int  | YES  | MUL | NULL    |       |
+| pr_id    | int  | YES  | MUL | NULL    |       |
+| quantity | int  | YES  |     | NULL    |       |
++----------+------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
 
 mysql> SHOW TABLES;
 +-------------------+
