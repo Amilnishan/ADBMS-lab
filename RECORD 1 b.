@@ -42,3 +42,6 @@ Query OK, 0 rows affected (0.45 sec)
 
 mysql> DROP TABLE student1;
 Query OK, 0 rows affected (0.50 sec) 
+
+//RESUBMIT
+DOB VARCHAR??
