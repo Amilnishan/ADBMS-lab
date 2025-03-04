@@ -1,0 +1,126 @@
+c) DML - DELETE 
+
+              1. Delete the record of customer id ‘10001’. 
+              2. Delete all purchase details of items its quantity less than 2. 
+              3. Delete the purchase details of product ‘pen’ in the in_id ‘101’. 
+              4. Delete details of customer who does not have phone number. 
+              5. Delete Invoice details of a particular customer(name) 
+              6. Delete the first two records of INVOICE_ITEM table.
+
+
+mysql> DELETE from invoice_item where invo_id=101;
+Query OK, 1 row affected (0.10 sec)
+
+mysql> DELETE from invoice_master where inv_id=101;
+Query OK, 1 row affected (0.11 sec)
+
+mysql> DELETE from customer where id=10001;
+Query OK, 1 row affected (0.09 sec)
+
+mysql> select * from customer;
++-------+--------+------------------+-------------+-----------+
+| id    | name   | address          | city        | ph_no     |
++-------+--------+------------------+-------------+-----------+
+| 10002 | nishan | kalam veettil    | palakkad    | 843016373 |
+| 10003 | shan   | karoot valappil  | Vallappuzha |      NULL |
+| 10004 | aman   | rahiman house    | Kuttiyadi   | 983526327 |
+| 10005 | faris  | shamsuddin house | Kozhikode   | 963545438 |
++-------+--------+------------------+-------------+-----------+
+4 rows in set (0.00 sec)
+
+
+
+
+mysql> DELETE from invoice_item where quantity<2;
+Query OK, 3 rows affected (0.14 sec)
+
+mysql> select * from invoice_item;
++---------+-------+----------+
+| invo_id | pr_id | quantity |
++---------+-------+----------+
+|     105 |     5 |        4 |
+|     103 |     1 |        3 |
++---------+-------+----------+
+2 rows in set (0.00 sec)
+
+
+
+
+mysql> select * from invoice_item;
++---------+-------+----------+
+| invo_id | pr_id | quantity |
++---------+-------+----------+
+|     105 |     5 |        4 |
+|     103 |     1 |        3 |
+|     101 |     1 |        2 |
++---------+-------+----------+
+3 rows in set (0.00 sec)
+
+mysql> DELETE from invoice_item where invo_id=101;
+Query OK, 1 row affected (0.17 sec)
+
+mysql> select * from invoice_item;
++---------+-------+----------+
+| invo_id | pr_id | quantity |
++---------+-------+----------+
+|     105 |     5 |        4 |
+|     103 |     1 |        3 |
++---------+-------+----------+
+2 rows in set (0.01 sec)
+
+
+
+mysql> DELETE from invoice_item where invo_id=103;
+Query OK, 1 row affected (0.09 sec)
+
+mysql> DELETE from invoice_master where inv_id=103;
+Query OK, 1 row affected (0.11 sec)
+
+mysql> DELETE from customer where ph_no is NULL;
+Query OK, 1 row affected (0.16 sec)
+
+mysql> select * from customer;
++-------+--------+------------------+-----------+-----------+
+| id    | name   | address          | city      | ph_no     |
++-------+--------+------------------+-----------+-----------+
+| 10002 | nishan | kalam veettil    | palakkad  | 843016373 |
+| 10004 | aman   | rahiman house    | Kuttiyadi | 983526327 |
+| 10005 | faris  | shamsuddin house | Kozhikode | 963545438 |
++-------+--------+------------------+-----------+-----------+
+3 rows in set (0.00 sec)
+
+
+
+mysql> DELETE from invoice_item where invo_id=103;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from invoice_item;
++---------+-------+----------+
+| invo_id | pr_id | quantity |
++---------+-------+----------+
+|     105 |     5 |        4 |
++---------+-------+----------+
+1 row in set (0.00 sec)
+
+
+
+mysql> select * from invoice_item;
++---------+-------+----------+
+| invo_id | pr_id | quantity |
++---------+-------+----------+
+|     105 |     5 |        4 |
+|     101 |     1 |        2 |
+|     104 |     4 |        3 |
++---------+-------+----------+
+3 rows in set (0.00 sec)
+
+mysql> DELETE from invoice_item LIMIT 2;
+Query OK, 2 rows affected (0.11 sec)
+
+mysql> select * from invoice_item;
++---------+-------+----------+
+| invo_id | pr_id | quantity |
++---------+-------+----------+
+|     104 |     4 |        3 |
++---------+-------+----------+
+1 row in set (0.00 sec)
