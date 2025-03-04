@@ -133,3 +133,4 @@ ERROR 1146 (42S02): Table 'ksb.student' doesn't exist
 
 //RESUBMIT
 DOB VARCHAR??
+//VERIFIED
