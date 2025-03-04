@@ -1,0 +1,134 @@
+b) DML - UPDATE 
+
+              1. Update the price of a particular product. 
+              2. Change the name of city ‘calicut’ to ‘kozhikode’ in the customer table. 
+              3. Update all prices with 2% of its original price. 
+              4. Change the address, city, phone number of a particular customer. 
+              5. Change the quantity of a purchased product of inv_id ‘101’
+
+
+mysql> select * from product;
++------+----------+-------+
+| p_id | pname    | price |
++------+----------+-------+
+|    1 | pen      |    10 |
+|    2 | pencil   |     5 |
+|    3 | soap     |    30 |
+|    4 | notebook |    60 |
+|    5 | eraser   |     5 |
++------+----------+-------+
+5 rows in set (0.03 sec)
+
+mysql> UPDATE product SET price=40 where p_id=3;
+Query OK, 1 row affected (0.10 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from product;
++------+----------+-------+
+| p_id | pname    | price |
++------+----------+-------+
+|    1 | pen      |    10 |
+|    2 | pencil   |     5 |
+|    3 | soap     |    40 |
+|    4 | notebook |    60 |
+|    5 | eraser   |     5 |
++------+----------+-------+
+5 rows in set (0.00 sec)
+
+
+
+mysql> select * from customer;
++-------+--------+------------------+-------------+-----------+
+| id    | name   | address          | city        | ph_no     |
++-------+--------+------------------+-------------+-----------+
+| 10001 | amil   | kv house         | Pattambi    | 859389080 |
+| 10002 | nishan | kv house         | Pattambi    | 859389047 |
+| 10003 | shan   | karoot valappil  | Vallappuzha |      NULL |
+| 10004 | aman   | rahiman house    | Kuttiyadi   | 983526327 |
+| 10005 | faris  | shamsuddin house | Kuttiyadi   | 963545438 |
++-------+--------+------------------+-------------+-----------+
+5 rows in set (0.02 sec)
+
+mysql> UPDATE customer SET city='Kozhikode' where id=10005;
+Query OK, 1 row affected (0.09 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from customer;
++-------+--------+------------------+-------------+-----------+
+| id    | name   | address          | city        | ph_no     |
++-------+--------+------------------+-------------+-----------+
+| 10001 | amil   | kv house         | Pattambi    | 859389080 |
+| 10002 | nishan | kv house         | Pattambi    | 859389047 |
+| 10003 | shan   | karoot valappil  | Vallappuzha |      NULL |
+| 10004 | aman   | rahiman house    | Kuttiyadi   | 983526327 |
+| 10005 | faris  | shamsuddin house | Kozhikode   | 963545438 |
++-------+--------+------------------+-------------+-----------+
+5 rows in set (0.00 sec)
+
+
+
+mysql> UPDATE product SET price=price + (price * 2/100);
+Query OK, 2 rows affected (0.10 sec)
+Rows matched: 5  Changed: 2  Warnings: 0
+
+mysql> select * from product;
++------+----------+-------+
+| p_id | pname    | price |
++------+----------+-------+
+|    1 | pen      |    10 |
+|    2 | pencil   |     5 |
+|    3 | soap     |    41 |
+|    4 | notebook |    61 |
+|    5 | eraser   |     5 |
++------+----------+-------+
+5 rows in set (0.00 sec)
+
+
+
+mysql> UPDATE customer SET address='kalam veettil',city='palakkad',ph_no=843016373 where id=10002;
+Query OK, 1 row affected (0.09 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from customer;
++-------+--------+------------------+-------------+-----------+
+| id    | name   | address          | city        | ph_no     |
++-------+--------+------------------+-------------+-----------+
+| 10001 | amil   | kv house         | Pattambi    | 859389080 |
+| 10002 | nishan | kalam veettil    | palakkad    | 843016373 |
+| 10003 | shan   | karoot valappil  | Vallappuzha |      NULL |
+| 10004 | aman   | rahiman house    | Kuttiyadi   | 983526327 |
+| 10005 | faris  | shamsuddin house | Kozhikode   | 963545438 |
++-------+--------+------------------+-------------+-----------+
+5 rows in set (0.00 sec)
+
+
+
+mysql> select * from invoice_item;
++---------+-------+----------+
+| invo_id | pr_id | quantity |
++---------+-------+----------+
+|     101 |     1 |        2 |
+|     102 |     2 |        1 |
+|     104 |     4 |        1 |
+|     105 |     5 |        4 |
+|     103 |     3 |        1 |
+|     103 |     1 |        3 |
++---------+-------+----------+
+6 rows in set (0.04 sec)
+
+mysql> UPDATE invoice_item SET quantity=3 where invo_id=101;
+Query OK, 1 row affected (0.11 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from invoice_item;
++---------+-------+----------+
+| invo_id | pr_id | quantity |
++---------+-------+----------+
+|     101 |     1 |        3 |
+|     102 |     2 |        1 |
+|     104 |     4 |        1 |
+|     105 |     5 |        4 |
+|     103 |     3 |        1 |
+|     103 |     1 |        3 |
++---------+-------+----------+
+6 rows in set (0.00 sec)
