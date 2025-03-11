@@ -124,3 +124,4 @@ mysql> select * from invoice_item;
 |     104 |     4 |        3 |
 +---------+-------+----------+
 1 row in set (0.00 sec)
+//VERIFIED
