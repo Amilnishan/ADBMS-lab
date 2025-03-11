@@ -1,0 +1,171 @@
+a) ACCESSING DATABASE:  (SELECT, Filtering using WHERE, ORDER BY Clauses)
+
+
+
+1.    List all invoice items, avoid duplicates.
+
+mysql> select * from invoice_item;
++---------+-------+----------+
+| invo_id | pr_id | quantity |
++---------+-------+----------+
+|     104 |     4 |        3 |
+|     101 |     3 |        2 |
+|     102 |     2 |        2 |
+|     105 |     5 |        7 |
++---------+-------+----------+
+4 rows in set (0.00 sec)
+
+mysql> select DISTINCT quantity from invoice_item;
++----------+
+| quantity |
++----------+
+|        3 |
+|        2 |
+|        7 |
++----------+
+3 rows in set (0.00 sec)
+
+
+2.    List the invoice details from 1st January 2024 to 31st march 2024
+
+mysql> select * from invoice_master;
++--------+---------+------------+
+| inv_id | cust_id | inv_date   |
++--------+---------+------------+
+|    101 |   10002 | 2023-03-20 |
+|    102 |   10002 | 2023-06-18 |
+|    103 |   10003 | 2024-02-28 |
+|    104 |   10004 | 2023-12-29 |
+|    105 |   10005 | 2024-06-10 |
++--------+---------+------------+
+5 rows in set (0.00 sec)
+
+mysql> select * from invoice_master where inv_date BETWEEN '2024-01-01' AND '2024-03-31';
++--------+---------+------------+
+| inv_id | cust_id | inv_date   |
++--------+---------+------------+
+|    103 |   10003 | 2024-02-28 |
++--------+---------+------------+
+1 row in set (0.00 sec)
+
+
+3.    List the customer details who not live in ‘tvm’.
+
+mysql> select * from customer;
++-------+---------+------------------+------------+-----------+
+| id    | name    | address          | city       | ph_no     |
++-------+---------+------------------+------------+-----------+
+| 10002 | nishan  | kalam veettil    | palakkad   | 843016373 |
+| 10003 | irfan   | koodanad house   | ernamkulam | 985704961 |
+| 10004 | aman    | rahiman house    | Kuttiyadi  | 983526327 |
+| 10005 | faris   | shamsuddin house | Kozhikode  | 963545438 |
+| 10006 | mashaal | muhammad house   | tvm        | 996780962 |
++-------+---------+------------------+------------+-----------+
+5 rows in set (0.00 sec)
+
+mysql> select * from customer where city != 'tvm';
++-------+--------+------------------+------------+-----------+
+| id    | name   | address          | city       | ph_no     |
++-------+--------+------------------+------------+-----------+
+| 10002 | nishan | kalam veettil    | palakkad   | 843016373 |
+| 10003 | irfan  | koodanad house   | ernamkulam | 985704961 |
+| 10004 | aman   | rahiman house    | Kuttiyadi  | 983526327 |
+| 10005 | faris  | shamsuddin house | Kozhikode  | 963545438 |
++-------+--------+------------------+------------+-----------+
+4 rows in set (0.00 sec)
+
+
+4.    List the customers who have no phone number.
+
+mysql> select * from customer;
++-------+---------+------------------+------------+-----------+
+| id    | name    | address          | city       | ph_no     |
++-------+---------+------------------+------------+-----------+
+| 10002 | nishan  | kalam veettil    | palakkad   | 843016373 |
+| 10003 | irfan   | koodanad house   | ernamkulam | 985704961 |
+| 10004 | aman    | rahiman house    | Kuttiyadi  | 983526327 |
+| 10005 | faris   | shamsuddin house | Kozhikode  | 963545438 |
+| 10006 | mashaal | muhammad house   | tvm        | 996780962 |
+| 10007 | shehin  | cholayil house   | ottappalam |      NULL |
++-------+---------+------------------+------------+-----------+
+6 rows in set (0.00 sec)
+
+mysql> select * from customer where ph_no IS NULL;
++-------+--------+----------------+------------+-------+
+| id    | name   | address        | city       | ph_no |
++-------+--------+----------------+------------+-------+
+| 10007 | shehin | cholayil house | ottappalam |  NULL |
++-------+--------+----------------+------------+-------+
+1 row in set (0.00 sec)
+
+
+5.    Display customer names in descending order.
+
+mysql> select name from customer ORDER BY name DESC;
++---------+
+| name    |
++---------+
+| shehin  |
+| nishan  |
+| mashaal |
+| irfan   |
+| faris   |
+| aman    |
++---------+
+
+
+6.    Display the customer details sorted in ascending by city and descending by names.
+
+mysql> select * from customer ORDER BY city ASC,name DESC;
++-------+---------+------------------+------------+-----------+
+| id    | name    | address          | city       | ph_no     |
++-------+---------+------------------+------------+-----------+
+| 10003 | irfan   | koodanad house   | ernamkulam | 985704961 |
+| 10005 | faris   | shamsuddin house | Kozhikode  | 963545438 |
+| 10004 | aman    | rahiman house    | Kuttiyadi  | 983526327 |
+| 10007 | shehin  | cholayil house   | ottappalam |      NULL |
+| 10002 | nishan  | kalam veettil    | palakkad   | 843016373 |
+| 10006 | mashaal | muhammad house   | tvm        | 996780962 |
++-------+---------+------------------+------------+-----------+
+6 rows in set (0.00 sec)
+
+
+7.    Find the customer names who have ‘e’ or ‘a’ in them and at least 3 characters in length
+
+mysql> select * from customer;
++-------+---------+------------------+------------+-----------+
+| id    | name    | address          | city       | ph_no     |
++-------+---------+------------------+------------+-----------+
+| 10002 | nishan  | kalam veettil    | palakkad   | 843016373 |
+| 10003 | irfan   | koodanad house   | ernamkulam | 985704961 |
+| 10004 | aman    | rahiman house    | Kuttiyadi  | 983526327 |
+| 10005 | faris   | shamsuddin house | Kozhikode  | 963545438 |
+| 10006 | mashaal | muhammad house   | tvm        | 996780962 |
+| 10007 | shehin  | cholayil house   | ottappalam |      NULL |
+| 10008 | am      | am house         | wyd        | 896785990 |
++-------+---------+------------------+------------+-----------+
+7 rows in set (0.00 sec)
+
+mysql> select name from customer where name like '%e%' OR name like '%a%' AND name like '___%';
++---------+
+| name    |
++---------+
+| nishan  |
+| irfan   |
+| aman    |
+| faris   |
+| mashaal |
+| shehin  |
++---------+
+6 rows in set (0.00 sec)
+
+
+8.    List the names of customers their names have ‘r’ in second position.
+
+mysql> select name from customer where name like '_r%';
++-------+
+| name  |
++-------+
+| irfan |
++-------+
+
