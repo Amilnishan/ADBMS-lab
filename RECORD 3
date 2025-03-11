@@ -182,3 +182,4 @@ mysql> SHOW GRANTS FOR 'shan'@'localhost';
 | GRANT UPDATE ON `INVOICE`.* TO `shan`@`localhost` |
 +---------------------------------------------------+
 2 rows in set (0.00 sec)
+//VERIFIED
