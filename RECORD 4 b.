@@ -1,0 +1,84 @@
+b) OPTIMIZING DATABASE:  (GROUP BY, AGGREGATE FUNCTIONS)
+
+1.    List product name, price except soap on price order.
+
+mysql> select pname,price from product where pname != 'soap' ORDER BY price;
++----------+-------+
+| pname    | price |
++----------+-------+
+| pencil   |     5 |
+| eraser   |     5 |
+| pen      |    10 |
+| notebook |    61 |
++----------+-------+
+4 rows in set (0.00 sec)
+
+
+2.    Find minimum, maximum and average price of products.
+
+mysql> select MIN(price) AS min_price,MAX(price) AS max_price,AVG(price) AS avg_price from product;
++-----------+-----------+-----------+
+| min_price | max_price | avg_price |
++-----------+-----------+-----------+
+|         5 |        61 |   24.4000 |
++-----------+-----------+-----------+
+1 row in set (0.02 sec)
+
+
+3.    Find number of customers in each city.
+
+mysql> select count(*) from customer GROUP BY city;
++----------+
+| count(*) |
++----------+
+|        1 |
+|        1 |
+|        1 |
+|        1 |
+|        1 |
+|        1 |
+|        1 |
++----------+
+7 rows in set (0.03 sec)
+
+
+4.    Find number of customers in each city, only include city with more than 3 customers.
+
+mysql> select * from customer;
++-------+---------+------------------+------------+-----------+
+| id    | name    | address          | city       | ph_no     |
++-------+---------+------------------+------------+-----------+
+| 10002 | nishan  | kalam veettil    | palakkad   | 843016373 |
+| 10003 | irfan   | koodanad house   | kozhikode  | 985704961 |
+| 10004 | aman    | rahiman house    | kozhikode  | 983526327 |
+| 10005 | faris   | shamsuddin house | Kozhikode  | 963545438 |
+| 10006 | mashaal | muhammad house   | tvm        | 996780962 |
+| 10007 | shehin  | cholayil house   | ottappalam |      NULL |
+| 10008 | am      | am house         | kozhikode  | 896785990 |
++-------+---------+------------------+------------+-----------+
+7 rows in set (0.00 sec)
+
+mysql> select count(*) from customer GROUP BY city HAVING count(*)>3;
++----------+
+| count(*) |
++----------+
+|        4 |
++----------+
+1 row in set (0.00 sec)
+
+
+5.    Show data as displayed ‘who, where’ Eg: ‘customer1 lives in ekm’
+
+mysql> select CONCAT(name,' lives in ',city)AS living from customer;
++----------------------------+
+| living                     |
++----------------------------+
+| nishan lives in palakkad   |
+| irfan lives in kozhikode   |
+| aman lives in kozhikode    |
+| faris lives in Kozhikode   |
+| mashaal lives in tvm       |
+| shehin lives in ottappalam |
+| am lives in kozhikode      |
++----------------------------+
+7 rows in set (0.00 sec)
