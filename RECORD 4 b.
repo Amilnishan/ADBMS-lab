@@ -82,3 +82,5 @@ mysql> select CONCAT(name,' lives in ',city)AS living from customer;
 | am lives in kozhikode      |
 +----------------------------+
 7 rows in set (0.00 sec)
+
+//VERIFIED
