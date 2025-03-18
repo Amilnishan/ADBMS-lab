@@ -1,0 +1,70 @@
+ACCESSING DATABASE:  (SUBQUERY)
+
+
+1.    List the product name and price of each invoice item.
+
+mysql> select pname,price from product where p_id in(select pr_id from invoice_item);
++----------+-------+
+| pname    | price |
++----------+-------+
+| pencil   |     5 |
+| soap     |    41 |
+| notebook |    61 |
+| eraser   |     5 |
++----------+-------+
+4 rows in set (0.01 sec)
+
+
+2.    List the product names, only include their purchased quantity more than 3.
+
+mysql> select pname from product where p_id in(select pr_id from invoice_item where quantity > 3);
++--------+
+| pname  |
++--------+
+| eraser |
++--------+
+1 row in set (0.00 sec)
+
+
+3.    Find the product that has no sale.
+
+mysql> select pname from product where p_id not in(select pr_id from invoice_item);
++-------+
+| pname |
++-------+
+| pen   |
++-------+
+1 row in set (0.03 sec)
+
+
+4.    List the customer names who purchased the items ‘pen’ and ‘pencil’.
+
+mysql> select name from customer where id in(select cust_id from invoice_master where inv_id in(select invo_id from invoice_item where pr_id in(select p_id from product where pname='pen' or pname='pencil')));
++--------+
+| name   |
++--------+
+| nishan |
++--------+
+1 row in set (0.00 sec)
+
+
+5.    Display the purchased product details of the customer ’xyz’.
+
+mysql> select * from product where p_id in(select pr_id from invoice_item where invo_id in(select inv_id from invoice_master where cust_id in(select id from customer where name='aman')));
++------+----------+-------+
+| p_id | pname    | price |
++------+----------+-------+
+|    4 | notebook |    61 |
++------+----------+-------+
+1 row in set (0.01 sec)
+
+
+6.    List the names of all customers who have purchased at least 2 products, make sure that no duplicate names in the result.
+
+mysql> select distinct name from customer where id in(select cust_id from invoice_master where inv_id in(select invo_id from invoice_item group by invo_id having count(*)>=2));
++--------+
+| name   |
++--------+
+| nishan |
++--------+
+1 row in set (0.00 sec)
