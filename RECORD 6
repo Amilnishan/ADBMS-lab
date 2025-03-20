@@ -1,0 +1,32 @@
+ACCESSING DATABASES: (VIEWS)
+
+
+1. Create a view for customers who have purchased products.
+
+mysql> CREATE VIEW c1 AS SELECT * from customer WHERE id in(select cust_id from invoice_master WHERE inv_id in(select invo_id from invoice_item));
+Query OK, 0 rows affected (0.14 sec)
+
+mysql> select * from c1;
++-------+--------+------------------+-----------+-----------+
+| id    | name   | address          | city      | ph_no     |
++-------+--------+------------------+-----------+-----------+
+| 10002 | nishan | kalam veettil    | palakkad  | 843016373 |
+| 10004 | aman   | rahiman house    | kozhikode | 983526327 |
+| 10005 | faris  | shamsuddin house | Kozhikode | 963545438 |
++-------+--------+------------------+-----------+-----------+
+3 rows in set (0.01 sec)
+
+
+
+2. Create a view for no sale products.
+
+mysql> CREATE VIEW no_sale AS SELECT * from product where p_id NOT IN(select pr_id from invoice_item);
+Query OK, 0 rows affected (0.15 sec)
+
+mysql> select * from no_sale;
++------+-------+-------+
+| p_id | pname | price |
++------+-------+-------+
+|    3 | soap  |    41 |
++------+-------+-------+
+1 row in set (0.02 sec)
