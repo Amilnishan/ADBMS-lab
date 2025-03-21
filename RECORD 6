@@ -30,3 +30,4 @@ mysql> select * from no_sale;
 |    3 | soap  |    41 |
 +------+-------+-------+
 1 row in set (0.02 sec)
+//VERIFIED
