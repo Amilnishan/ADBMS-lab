@@ -68,3 +68,4 @@ mysql> select distinct name from customer where id in(select cust_id from invoic
 | nishan |
 +--------+
 1 row in set (0.00 sec)
+//VERIFIED
