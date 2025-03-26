@@ -111,3 +111,4 @@ mysql> select pname from product where EXISTS(select 1 from invoice_item where i
 | notebook |
 +----------+
 1 row in set (0.02 sec)
+//VERIFIED
