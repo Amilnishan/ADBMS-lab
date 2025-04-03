@@ -1,0 +1,107 @@
+PL/SQL PROGRAMS- STORED PROCEDURES
+
+1.      Create a procedure to display all tables in the invoice database.
+
+
+mysql> DELIMITER //
+mysql> use INVOICE //
+
+mysql> create procedure INVOICE() begin select * from customer; select * from product; select * from invoice_item; select * from invoice_master; end//
+Query OK, 0 rows affected (0.14 sec)
+
+mysql> call INVOICE //
++-------+---------+------------------+-----------+-----------+
+| id    | name    | address          | city      | ph_no     |
++-------+---------+------------------+-----------+-----------+
+| 10002 | nishan  | kalam veettil    | palakkad  | 843016373 |
+| 10003 | irfan   | koodanad house   | kozhikode | 985704961 |
+| 10004 | aman    | rahiman house    | kozhikode | 983526327 |
+| 10005 | faris   | shamsuddin house | Kozhikode | 963545438 |
+| 10006 | mashaal | muhammad house   | tvm       | 996780962 |
+| 10007 | shehin  | cholayil house   | calicut   |      NULL |
+| 10008 | am      | am house         | clt       | 896785990 |
++-------+---------+------------------+-----------+-----------+
+7 rows in set (0.02 sec)
+
++------+----------+-------+
+| p_id | pname    | price |
++------+----------+-------+
+|    1 | pen      |    10 |
+|    2 | pencil   |     5 |
+|    3 | soap     |    41 |
+|    4 | notebook |    61 |
+|    5 | eraser   |     5 |
++------+----------+-------+
+5 rows in set (0.03 sec)
+
++---------+-------+----------+
+| invo_id | pr_id | quantity |
++---------+-------+----------+
+|     104 |     4 |        3 |
+|     102 |     2 |        2 |
+|     105 |     5 |        7 |
+|     102 |     1 |        2 |
++---------+-------+----------+
+4 rows in set (0.04 sec)
+
++--------+---------+------------+
+| inv_id | cust_id | inv_date   |
++--------+---------+------------+
+|    102 |   10002 | 2022-01-31 |
+|    103 |   10003 | 2024-02-28 |
+|    104 |   10004 | 2023-12-29 |
+|    105 |   10005 | 2024-06-10 |
++--------+---------+------------+
+4 rows in set (0.05 sec)
+
+Query OK, 0 rows affected (0.05 sec)
+
+
+2.      Create a procedure to find greatest of 2 numbers.
+
+
+mysql> create procedure greater(a int,b int)
+    -> begin
+    -> if a > b then select a as "greater";
+    -> else select b as "greater";
+    -> end if;
+    -> end 
+    -> //
+Query OK, 0 rows affected (0.22 sec)
+
+mysql> call greater(100,50)
+    -> //
++---------+
+| greater |
++---------+
+|     100 |
++---------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+
+3.      Create a procedure to display invoice details of a particular customer.
+
+
+mysql> create procedure inv_detail(n varchar(20))
+    -> begin
+    -> select customer.name,invoice_master.inv_id,invoice_master.cust_id,invoice_master.inv_date,product.pname,invoice_item.pr_id,invoice_item.quantity from invoice_item
+    -> join invoice_master on invoice_master.inv_id=invoice_item.invo_id
+    -> join product on product.p_id=invoice_item.pr_id
+    -> join customer on customer.id=invoice_master.cust_id where customer.name=n;
+    -> end
+    -> //
+Query OK, 0 rows affected (0.16 sec)
+
+mysql> call inv_detail('nishan');
+    -> //
++--------+--------+---------+------------+--------+-------+----------+
+| name   | inv_id | cust_id | inv_date   | pname  | pr_id | quantity |
++--------+--------+---------+------------+--------+-------+----------+
+| nishan |    102 |   10002 | 2022-01-31 | pencil |     2 |        2 |
+| nishan |    102 |   10002 | 2022-01-31 | pen    |     1 |        2 |
++--------+--------+---------+------------+--------+-------+----------+
+2 rows in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
