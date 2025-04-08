@@ -39,3 +39,4 @@ mysql> select @name_list;
 | am;shehin;mashaal;faris;aman;irfan;nishan; |
 +--------------------------------------------+
 1 row in set (0.00 sec)
+//VERIFIED
