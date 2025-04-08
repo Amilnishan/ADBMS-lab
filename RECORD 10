@@ -1,0 +1,65 @@
+PL/SQL -TRIGGER
+
+
+1.      Create a trigger to handle updates to the customer table.
+
+
+mysql> create trigger cust1_trig after update on customer for each row begin insert into cust1 set id=new.id,name=new.name,address=new.address,city=new.city,ph_no=new.ph_no;
+    -> end
+    -> //
+Query OK, 0 rows affected (0.20 sec)
+
+mysql> update customer set city='idukki' where id=10003;
+    -> //
+Query OK, 1 row affected (0.09 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update customer set ph_no=985674569 where id=10005;
+    -> //
+Query OK, 1 row affected (0.12 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from cust1;
+    -> //
++-------+-------+------------------+-----------+-----------+
+| id    | name  | address          | city      | ph_no     |
++-------+-------+------------------+-----------+-----------+
+| 10003 | irfan | koodanad house   | idukki    | 985704961 |
+| 10005 | faris | shamsuddin house | Kozhikode | 985674569 |
++-------+-------+------------------+-----------+-----------+
+2 rows in set (0.00 sec)
+
+
+2.      Create a trigger to handle inserts to the product relation ( if price < 5 the set price to 10).
+
+
+mysql> create trigger trig_relation
+    -> before insert
+    -> on product
+    -> for each row
+    -> begin
+    -> if new.price<5
+    -> then
+    -> set new.price=10;
+    -> end if;
+    -> end;
+    -> //
+Query OK, 0 rows affected (0.21 sec)
+
+mysql> insert into product values(6,'sharpener',8);
+    -> //
+Query OK, 1 row affected (0.14 sec)
+
+mysql> select * from product;
+    -> //
++------+-----------+-------+
+| p_id | pname     | price |
++------+-----------+-------+
+|    1 | pen       |    10 |
+|    2 | pencil    |     5 |
+|    3 | soap      |    41 |
+|    4 | notebook  |    61 |
+|    5 | eraser    |     5 |
+|    6 | sharpener |     8 |
++------+-----------+-------+
+6 rows in set (0.00 sec)
