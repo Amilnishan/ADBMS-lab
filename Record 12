@@ -1,0 +1,171 @@
+NoSQL CRUD
+
+1.      Write a MongoDB query to create an INVOICE database and collections (CUSTOMER, PRODUCT) and its corresponding documents.
+
+test> use INVOICE
+switched to db INVOICE
+INVOICE> db.customer.insertOne({
+... customer_id:1,
+... name:"Amil nishan",
+... email:"amil@gmail.com",
+... phone:"8563802749",
+... address:"kv house mattaya pattambi,palakkad,kerala"
+... })
+{
+  acknowledged: true,
+  insertedId: ObjectId('67fe26b3f99d47ba18ef634b')
+}
+INVOICE> db.product.insertOne({
+... product_id:101,
+... name:"mouse",
+... category:"device",
+... price:200,
+... stock:50
+... })
+{
+  acknowledged: true,
+  insertedId: ObjectId('67fe2759f99d47ba18ef634c')
+}
+
+INVOICE> db.customer.insertMany([
+... {
+...  customer_id: 2,
+...  name:"shan",
+...  email:"shan4@gmail.com",
+...  phone:"9874036473",
+...  address:"kv house mattaya pattambi,palakkad,kerala"
+... },
+... {
+...  customer_id: 3,
+...  name:"Aman",
+...  email:"aman_ar@gmail.com",
+...  phone:"9705863089",
+...  address:"ar house kuttiyadi,kozhikkode,kerala"
+... }
+... ])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('67fe298ef99d47ba18ef634d'),
+    '1': ObjectId('67fe298ef99d47ba18ef634e')
+  }
+}
+
+
+2.      Write a MongoDB query to find all documents from the collection CUSTOMER 
+
+INVOICE> db.customer.find()
+[
+  {
+    _id: ObjectId('67fe26b3f99d47ba18ef634b'),
+    customer_id: 1,
+    name: 'Amil nishan',
+    email: 'amil@gmail.com',
+    phone: '8563802749',
+    address: 'kv house mattaya pattambi,palakkad,kerala'
+  },
+  {
+    _id: ObjectId('67fe298ef99d47ba18ef634d'),
+    customer_id: 2,
+    name: 'shan',
+    email: 'shan4@gmail.com',
+    phone: '9874036473',
+    address: 'kv house mattaya pattambi,palakkad,kerala'
+  },
+  {
+    _id: ObjectId('67fe298ef99d47ba18ef634e'),
+    customer_id: 3,
+    name: 'Aman',
+    email: 'aman_ar@gmail.com',
+    phone: '9705863089',
+    address: 'ar house kuttiyadi,kozhikkode,kerala'
+  }
+]
+
+
+3.      Write a MongoDB query to update the city in the collection CUSTOMER.
+
+INVOICE> db.customer.updateOne(
+... { customer_id:1 },
+... { $set: {city:"Palakkad"} }
+... )
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+INVOICE> db.customer.updateOne( { customer_id: 2 }, { $set: { city: "Calicut" } } )
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+INVOICE> db.customer.updateOne( { customer_id: 3 }, { $set: { city: "Wayanad" } } )
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+INVOICE> db.customer.find()
+[
+  {
+    _id: ObjectId('67fe26b3f99d47ba18ef634b'),
+    customer_id: 1,
+    name: 'Amil nishan',
+    email: 'amil@gmail.com',
+    phone: '8563802749',
+    address: 'kv house mattaya pattambi,palakkad,kerala',
+    city: 'Palakkad'
+  },
+  {
+    _id: ObjectId('67fe298ef99d47ba18ef634d'),
+    customer_id: 2,
+    name: 'shan',
+    email: 'shan4@gmail.com',
+    phone: '9874036473',
+    address: 'kv house mattaya pattambi,palakkad,kerala',
+    city: 'Calicut'
+  },
+  {
+    _id: ObjectId('67fe298ef99d47ba18ef634e'),
+    customer_id: 3,
+    name: 'Aman',
+    email: 'aman_ar@gmail.com',
+    phone: '9705863089',
+    address: 'ar house kuttiyadi,kozhikkode,kerala',
+    city: 'Wayanad'
+  }
+]
+
+
+4.      Write a MongoDB query to delete the first matched document whose city is “Calicut”.
+
+INVOICE> db.customer.deleteOne( { city:"Calicut" } )
+{ acknowledged: true, deletedCount: 1 }
+INVOICE> db.customer.find()
+[
+  {
+    _id: ObjectId('67fe26b3f99d47ba18ef634b'),
+    customer_id: 1,
+    name: 'Amil nishan',
+    email: 'amil@gmail.com',
+    phone: '8563802749',
+    address: 'kv house mattaya pattambi,palakkad,kerala',
+    city: 'Palakkad'
+  },
+  {
+    _id: ObjectId('67fe298ef99d47ba18ef634e'),
+    customer_id: 3,
+    name: 'Aman',
+    email: 'aman_ar@gmail.com',
+    phone: '9705863089',
+    address: 'ar house kuttiyadi,kozhikkode,kerala',
+    city: 'Wayanad'
+  }
+]
