@@ -1,0 +1,185 @@
+------REPLICATION------
+
+(base) ksb@ksb-OptiPlex-3060:~$ mkdir -p node1 node2 node3
+(base) ksb@ksb-OptiPlex-3060:~$ mongod --replSet rs0 --port 27017 --dbpath ./node1 --bind_ip localhost
+(base) ksb@ksb-OptiPlex-3060:~$ mongod --replSet rs0 --port 27018 --dbpath ./node2 --bind_ip localhost
+(base) ksb@ksb-OptiPlex-3060:~$ mongod --replSet rs0 --port 27019 --dbpath ./node3 --bind_ip localhost
+
+(base) ksb@ksb-OptiPlex-3060:~$ mongosh --port 27017
+
+Current Mongosh Log ID:	680a0af23e82e3c4b2ef634a
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.2.3
+Using MongoDB:		7.0.8
+Using Mongosh:		2.2.3
+
+test> rs.initiate({
+... _id: "rs0",
+... members: [
+... { _id: 0, host: "localhost:27017" },
+... { _id: 1, host: "localhost:27018" },
+... { _id: 2, host: "localhost:27019" }
+... ]
+... })
+{ ok: 1 }
+rs0 [direct: other] test> rs.status()
+{
+  set: 'rs0',
+  date: ISODate('2025-04-24T10:02:54.329Z'),
+  myState: 1,
+  term: Long('1'),
+  syncSourceHost: '',
+  syncSourceId: -1,
+  heartbeatIntervalMillis: Long('2000'),
+  majorityVoteCount: 2,
+  writeMajorityCount: 2,
+  votingMembersCount: 3,
+  writableVotingMembersCount: 3,
+  optimes: {
+    lastCommittedOpTime: { ts: Timestamp({ t: 1745488969, i: 1 }), t: Long('1') },
+    lastCommittedWallTime: ISODate('2025-04-24T10:02:49.996Z'),
+    readConcernMajorityOpTime: { ts: Timestamp({ t: 1745488969, i: 1 }), t: Long('1') },
+    appliedOpTime: { ts: Timestamp({ t: 1745488969, i: 1 }), t: Long('1') },
+    durableOpTime: { ts: Timestamp({ t: 1745488969, i: 1 }), t: Long('1') },
+    lastAppliedWallTime: ISODate('2025-04-24T10:02:49.996Z'),
+    lastDurableWallTime: ISODate('2025-04-24T10:02:49.996Z')
+  },
+  lastStableRecoveryTimestamp: Timestamp({ t: 1745488939, i: 1 }),
+  electionCandidateMetrics: {
+    lastElectionReason: 'electionTimeout',
+    lastElectionDate: ISODate('2025-04-24T09:58:29.005Z'),
+    electionTerm: Long('1'),
+    lastCommittedOpTimeAtElection: { ts: Timestamp({ t: 1745488698, i: 1 }), t: Long('-1') },
+    lastSeenOpTimeAtElection: { ts: Timestamp({ t: 1745488698, i: 1 }), t: Long('-1') },
+    numVotesNeeded: 2,
+    priorityAtElection: 1,
+    electionTimeoutMillis: Long('10000'),
+    numCatchUpOps: Long('0'),
+    newTermStartDate: ISODate('2025-04-24T09:58:29.662Z'),
+    wMajorityWriteAvailabilityDate: ISODate('2025-04-24T09:58:31.437Z')
+  },
+  members: [
+    {
+      _id: 0,
+      name: 'localhost:27017',
+      health: 1,
+      state: 1,
+      stateStr: 'PRIMARY',
+      uptime: 401,
+      optime: { ts: Timestamp({ t: 1745488969, i: 1 }), t: Long('1') },
+      optimeDate: ISODate('2025-04-24T10:02:49.000Z'),
+      lastAppliedWallTime: ISODate('2025-04-24T10:02:49.996Z'),
+      lastDurableWallTime: ISODate('2025-04-24T10:02:49.996Z'),
+      syncSourceHost: '',
+      syncSourceId: -1,
+      infoMessage: '',
+      electionTime: Timestamp({ t: 1745488709, i: 1 }),
+      electionDate: ISODate('2025-04-24T09:58:29.000Z'),
+      configVersion: 1,
+      configTerm: 1,
+      self: true,
+      lastHeartbeatMessage: ''
+    },
+    {
+      _id: 1,
+      name: 'localhost:27018',
+      health: 1,
+      state: 2,
+      stateStr: 'SECONDARY',
+      uptime: 275,
+      optime: { ts: Timestamp({ t: 1745488969, i: 1 }), t: Long('1') },
+      optimeDurable: { ts: Timestamp({ t: 1745488969, i: 1 }), t: Long('1') },
+      optimeDate: ISODate('2025-04-24T10:02:49.000Z'),
+      optimeDurableDate: ISODate('2025-04-24T10:02:49.000Z'),
+      lastAppliedWallTime: ISODate('2025-04-24T10:02:49.996Z'),
+      lastDurableWallTime: ISODate('2025-04-24T10:02:49.996Z'),
+      lastHeartbeat: ISODate('2025-04-24T10:02:53.113Z'),
+      lastHeartbeatRecv: ISODate('2025-04-24T10:02:54.112Z'),
+      pingMs: Long('0'),
+      lastHeartbeatMessage: '',
+      syncSourceHost: 'localhost:27017',
+      syncSourceId: 0,
+      infoMessage: '',
+      configVersion: 1,
+      configTerm: 1
+    },
+    {
+      _id: 2,
+      name: 'localhost:27019',
+      health: 1,
+      state: 2,
+      stateStr: 'SECONDARY',
+      uptime: 275,
+      optime: { ts: Timestamp({ t: 1745488969, i: 1 }), t: Long('1') },
+      optimeDurable: { ts: Timestamp({ t: 1745488969, i: 1 }), t: Long('1') },
+      optimeDate: ISODate('2025-04-24T10:02:49.000Z'),
+      optimeDurableDate: ISODate('2025-04-24T10:02:49.000Z'),
+      lastAppliedWallTime: ISODate('2025-04-24T10:02:49.996Z'),
+      lastDurableWallTime: ISODate('2025-04-24T10:02:49.996Z'),
+      lastHeartbeat: ISODate('2025-04-24T10:02:53.113Z'),
+      lastHeartbeatRecv: ISODate('2025-04-24T10:02:54.111Z'),
+      pingMs: Long('0'),
+      lastHeartbeatMessage: '',
+      syncSourceHost: 'localhost:27017',
+      syncSourceId: 0,
+      infoMessage: '',
+      configVersion: 1,
+      configTerm: 1
+    }
+  ],
+  ok: 1,
+  '$clusterTime': {
+    clusterTime: Timestamp({ t: 1745488969, i: 1 }),
+    signature: {
+      hash: Binary.createFromBase64('AAAAAAAAAAAAAAAAAAAAAAAAAAA=', 0),
+      keyId: Long('0')
+    }
+  },
+  operationTime: Timestamp({ t: 1745488969, i: 1 })
+}
+
+rs0 [direct: primary] test> use db1
+switched to db db1
+rs0 [direct: primary] db1> db.customers.insertOne({ name: "Anjana", city: "ekm", age: 30 })
+{
+  acknowledged: true,
+  insertedId: ObjectId('680a0dd53e82e3c4b2ef634c')
+}
+rs0 [direct: primary] db1> db.customer.find()
+
+rs0 [direct: primary] db1> db.customers.find()
+[
+  {
+    _id: ObjectId('680a0dd53e82e3c4b2ef634c'),
+    name: 'Anjana',
+    city: 'ekm',
+    age: 30
+  }
+]
+
+(base) ksb@ksb-OptiPlex-3060:~$ mongosh --port 27018
+
+rs0 [direct: secondary] test> use db1
+switched to db db1
+rs0 [direct: secondary] db1> db.customers.find()
+[
+  {
+    _id: ObjectId('680a0dd53e82e3c4b2ef634c'),
+    name: 'Anjana',
+    city: 'ekm',
+    age: 30
+  }
+]
+
+(base) ksb@ksb-OptiPlex-3060:~$ mongosh --port 27019
+
+rs0 [direct: secondary] test> use db1
+switched to db db1
+rs0 [direct: secondary] db1> db.customers.find()
+[
+  {
+    _id: ObjectId('680a0dd53e82e3c4b2ef634c'),
+    name: 'Anjana',
+    city: 'ekm',
+    age: 30
+  }
+]
