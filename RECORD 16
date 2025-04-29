@@ -183,3 +183,4 @@ rs0 [direct: secondary] db1> db.customers.find()
     age: 30
   }
 ]
+//VERIFIED
