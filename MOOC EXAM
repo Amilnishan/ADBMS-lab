@@ -1,0 +1,316 @@
+PART A: Creating Collection and Inserting Documents
+Create a database named collegeDB.
+Create a collection named students.
+Insert at least 5 student documents with the following fields:
+-> _id (auto or manual)
+-> name
+-> age
+-> department
+-> marks (object with math, science, english)
+-> admissionYear
+
+
+test> use collegeDB
+switched to db collegeDB
+
+collegeDB> db.createCollection("Students")
+{ ok: 1 }
+collegeDB> db.students.insertMany( [ {
+... name:"Amil",
+... age:21, department:"MCA",
+... marks: { maths: 91, Science: 95, English: 92 },
+... admissionYear:2024
+... },
+... {
+... name:"Amil",
+... age:21, department:"MCA",
+... marks: { maths: 91, Science: 95, English: 92 },
+... admissionYear:2023
+... },
+... {
+... name:"Nishan",
+... age:22, department:"MCA",
+... marks: { maths: 94, Science: 93, English: 91 },
+... admissionYear:2024
+... },
+... {
+... name:"Alice",
+... age:22, department:"computer science",
+... marks: { maths: 91, Science: 98, English: 97 },
+... admissionYear:2024
+... } ] )
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('6815b29c46d4ede0a2ef634b'),
+    '1': ObjectId('6815b29c46d4ede0a2ef634c'),
+    '2': ObjectId('6815b29c46d4ede0a2ef634d'),
+    '3': ObjectId('6815b29c46d4ede0a2ef634e')
+  }
+}
+
+
+PART B: CRUD Operations
+
+1. Display all documents in the students collection.
+2. Display students whose department is "Computer Science".
+3. Update the age of a student named "Alice" to 21.
+4. Add a new field attendance: 95 to the student named "Alice".
+5. Delete a student document where the name is "Bob".
+
+
+collegeDB> db.students.find()
+[
+  {
+    _id: ObjectId('6815b29c46d4ede0a2ef634b'),
+    name: 'Amil',
+    age: 21,
+    department: 'MCA',
+    marks: { maths: 91, Science: 95, English: 92 },
+    admissionYear: 2024
+  },
+  {
+    _id: ObjectId('6815b29c46d4ede0a2ef634c'),
+    name: 'Bob',
+    age: 21,
+    department: 'MCA',
+    marks: { maths: 91, Science: 95, English: 92 },
+    admissionYear: 2023
+  },
+  {
+    _id: ObjectId('6815b29c46d4ede0a2ef634d'),
+    name: 'Nishan',
+    age: 22,
+    department: 'MCA',
+    marks: { maths: 94, Science: 93, English: 91 },
+    admissionYear: 2024
+  },
+  {
+    _id: ObjectId('6815b29c46d4ede0a2ef634e'),
+    name: 'Alice',
+    age: 22,
+    department: 'computer science',
+    marks: { maths: 91, Science: 98, English: 97 },
+    admissionYear: 2024
+  }
+]
+
+
+collegeDB> db.students.find({ department: "computer science" })
+[
+  {
+    _id: ObjectId('6815b29c46d4ede0a2ef634e'),
+    name: 'Alice',
+    age: 22,
+    department: 'computer science',
+    marks: { maths: 91, Science: 98, English: 97 },
+    admissionYear: 2024
+  }
+]
+
+collegeDB> db.students.updateOne( { name:"Alice"}, { $set: { age:21} })
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+collegeDB> db.students.deleteOne( { name:"Bob" } )
+{ acknowledged: true, deletedCount: 1 }
+collegeDB> db.students.find()
+[
+  {
+    _id: ObjectId('6815b29c46d4ede0a2ef634b'),
+    name: 'Amil',
+    age: 21,
+    department: 'MCA',
+    marks: { maths: 91, Science: 95, English: 92 },
+    admissionYear: 2024
+  },
+  {
+    _id: ObjectId('6815b29c46d4ede0a2ef634d'),
+    name: 'Nishan',
+    age: 22,
+    department: 'MCA',
+    marks: { maths: 94, Science: 93, English: 91 },
+    admissionYear: 2024
+  },
+  {
+    _id: ObjectId('6815b29c46d4ede0a2ef634e'),
+    name: 'Alice',
+    age: 21,
+    department: 'computer science',
+    marks: { maths: 91, Science: 98, English: 97 },
+    admissionYear: 2024
+  }
+]
+
+
+collegeDB> db.students.updateOne(
+... { name:"Alice"},{ $set: { attendance:95 } })
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+
+Part C: Data Retrieval with Conditions
+
+1. Retrieve names of students who scored more than 85 in math.
+2. List students admitted in the year 2023.
+3. Display students sorted by name in ascending order.
+4. Count the number of students in each department.
+
+
+collegeDB> db.students.find({ "marks.maths": { $gt: 85 } }, { name: 1 })
+[
+  { _id: ObjectId('6815b29c46d4ede0a2ef634b'), name: 'Amil' },
+  { _id: ObjectId('6815b29c46d4ede0a2ef634d'), name: 'Nishan' },
+  { _id: ObjectId('6815b29c46d4ede0a2ef634e'), name: 'Alice' }
+]
+
+
+collegeDB> db.students.find( { admissionYear:2023 } )
+[
+  {
+    _id: ObjectId('6815b29c46d4ede0a2ef634e'),
+    name: 'Alice',
+    age: 21,
+    department: 'computer science',
+    marks: { maths: 91, Science: 98, English: 97 },
+    admissionYear: 2023,
+    attendance: 95,
+    S_id: 4
+  }
+]
+
+
+collegeDB> db.students.find().sort( { name:1} ) 
+[
+  {
+    _id: ObjectId('6815b29c46d4ede0a2ef634e'),
+    name: 'Alice',
+    age: 21,
+    department: 'computer science',
+    marks: { maths: 91, Science: 98, English: 97 },
+    admissionYear: 2023,
+    attendance: 95,
+    S_id: 4
+  },
+  {
+    _id: ObjectId('6815b29c46d4ede0a2ef634b'),
+    name: 'Amil',
+    age: 21,
+    department: 'MCA',
+    marks: { maths: 91, Science: 95, English: 92 },
+    admissionYear: 2024,
+    S_id: 1
+  },
+  {
+    _id: ObjectId('6815b29c46d4ede0a2ef634d'),
+    name: 'Nishan',
+    age: 22,
+    department: 'MCA',
+    marks: { maths: 94, Science: 93, English: 91 },
+    admissionYear: 2024,
+    S_id: 3
+  }
+]
+
+
+collegeDB> db.students.aggregate([ { $group: { _id: "$department", count: { $sum: 1 } } }] )
+[ { _id: 'computer science', count: 1 }, { _id: 'MCA', count: 2 } ]
+
+
+
+Part D: Aggregation
+1. Use $project to display only name and total marks (sum of all subjects).
+2. Use $match and $group to calculate the average math marks department-wise.
+3. Use $sort to display students based on their science marks in descending order.
+4. Use $lookup to join students with a new collection named internships, and display:
+
+
+collegeDB> db.students.aggregate([ { $project: { name: 1, totalMarks: { $add: ["$marks.maths", "$marks.Science", "$marks.English"] }, _id: 0 } }] )
+[
+  { name: 'Amil', totalMarks: 278 },
+  { name: 'Nishan', totalMarks: 278 },
+  { name: 'Alice', totalMarks: 286 }
+]
+
+
+collegeDB> db.students.aggregate([
+...   {
+...     $match: { "marks.maths": { $exists: true } }
+...   },
+...   {
+...     $group: {
+...       _id: "$department",
+...       averageMathMarks: { $avg: "$marks.maths" }
+...     }
+...   }
+... ])
+[
+  { _id: 'computer science', averageMathMarks: 91 },
+  { _id: 'MCA', averageMathMarks: 92.5 }
+]
+
+
+collegeDB> db.students.aggregate([ { $sort: { "marks.Science": -1 } }] )
+[
+  {
+    _id: ObjectId('6815b29c46d4ede0a2ef634e'),
+    name: 'Alice',
+    age: 21,
+    department: 'computer science',
+    marks: { maths: 91, Science: 98, English: 97 },
+    admissionYear: 2023,
+    attendance: 95,
+    S_id: 4
+  },
+  {
+    _id: ObjectId('6815b29c46d4ede0a2ef634b'),
+    name: 'Amil',
+    age: 21,
+    department: 'MCA',
+    marks: { maths: 91, Science: 95, English: 92 },
+    admissionYear: 2024,
+    S_id: 1
+  },
+  {
+    _id: ObjectId('6815b29c46d4ede0a2ef634d'),
+    name: 'Nishan',
+    age: 22,
+    department: 'MCA',
+    marks: { maths: 94, Science: 93, English: 91 },
+    admissionYear: 2024,
+    S_id: 3
+  }
+]
+
+
+collegeDB> db.students.aggregate([ { $lookup: { from: "internships", localField: "S_id", foreignField: "S_id", as: "internshipInfo" } }, { $unwind: "$internshipInfo" }, { $project: { name: 1, department: 1, internship_company: "$internshipInfo.internship_company", duration: "$internshipInfo.duration", _id: 0 } }] )
+[
+  {
+    name: 'Amil',
+    department: 'MCA',
+    internship_company: 'Google',
+    duration: '3 months'
+  },
+  {
+    name: 'Nishan',
+    department: 'MCA',
+    internship_company: 'Microsoft',
+    duration: '2 months'
+  },
+  {
+    name: 'Alice',
+    department: 'computer science',
+    internship_company: 'Amazon',
+    duration: '4 months'
+  }
+]
